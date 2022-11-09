@@ -39,3 +39,17 @@ root.render(<App />); // render 메서드를 통해 이 div 태그를 통해 뭘
 // index.html파일
 <div id="root"></div>; // ---> 사용자 인터페이스가 렌더링 되어야 하는 부분
 ```
+
+<br>
+
+## JSX
+
+<a href="https://ko.reactjs.org/docs/introducing-jsx.html">JSX React 공식문서</a>  
+자바스크립트를 확장한 문법
+
+<br>
+
+### 리액트로 작성된 컴포넌트는 어떤 것일까?
+
+단지 (HTML 코드를 리턴하는)자바스크립트 함수일 뿐이다.  
+HTML 코드를 리턴하는 함수인 컴포넌트를 생성해서 내보내면(export) 되고, 사용하고싶은 파일에서 받아오면(import)되는데 JSX 코드에서 대문자로 시작하는 HTML 요소처럼 사용하면 된다.
