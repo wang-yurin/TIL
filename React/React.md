@@ -53,3 +53,29 @@ root.render(<App />); // render 메서드를 통해 이 div 태그를 통해 뭘
 
 단지 (HTML 코드를 리턴하는)자바스크립트 함수일 뿐이다.  
 HTML 코드를 리턴하는 함수인 컴포넌트를 생성해서 내보내면(export) 되고, 사용하고싶은 파일에서 받아오면(import)되는데 JSX 코드에서 대문자로 시작하는 HTML 요소처럼 사용하면 된다.
+
+<br>
+
+### JSX 코드 안에서의 중요한 규칙
+
+반환하는 문장마다 또는 JSX코드 조각마다 반드시 한 개의 루트 요소를 가져야한다. (여러개의 루트 요소를 가질 수 없고 하나의 루트 요소 안에서만 여러개의 요소들이 올 수 있다.)
+
+```js
+// 잘못된 방법
+function Wrong() {
+  return <div>Hello</div>
+  <div><h1>My name is...</h1></div>
+}
+
+// 옳은 방법
+function Correct() {
+  return (
+    <div>
+      <div>Hello</div>
+      <div>
+        <h1>My name is...</h1>
+      </div>
+    </div>
+  )
+}
+```
