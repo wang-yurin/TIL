@@ -89,6 +89,35 @@ props는 속성을 나타내는 데이터이다.
 
 <br>
 
+## 이벤트 핸들러 주의사항
+
+```js
+function Example() {
+  const clickHandler = () => {
+    console.log("clicked!");
+  };
+  return (
+    <Component>
+      <button onClick={clickHandler}>Change Button</button>
+    </Component>
+  );
+}
+```
+
+위의 코드 `<button onClick={clickHandler}>Change Button</button>`에서 `clickHandler`를 지정했지만 실행하지 않았다.(괄호를 추가하지 않았다.)
+`clickHandler` 함수를 지정했지만 실행을 하지 않았는데 만약, 실행을 했다면?
+
+`<button onClick={clickHandler()}>Change Button</button>` 이 코드라인이 평가 되었을 때 자바스크립트는 이 코드라인을 실행했을 것이다. 그리고 JSX 코드가 반환될 때 아래 코드라인이 평가되는데
+
+```js
+<Component>
+  <button onClick={clickHandler}>Change Button</button>
+</Component>
+```
+
+그렇기에 클릭했을 때 `clickHandler`가 실행되는 것이 아니라 JSX 코드가 평가 될 때 실행되어서 클릭 전에 실행이 미리 되어버린다.
+따라서 onClick을 위한 값으로 지정만 해놓고(실행은 하지 않기) 리액트는 이것을 기억했다가 클릭할 때마다 함수를 실행한다.
+
 ---
 
 <br>
