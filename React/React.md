@@ -133,7 +133,7 @@ import React, { useState } from "react";
 `useState`는 리액트 라이브러리에서 제공하는 함수이다.  
 컴포넌트 함수가 다시 호출되는 곳에서 변경된 값을 반영하기 위해 state로 값을 정의할 수 있게 해주는 함수이다.
 
-`useState` 함수를 사용하려면?  
+**`useState` 함수를 사용하려면?**  
 해당 컴포넌트 함수 안에서 `useState` 함수를 호출해야한다.  
 함수 밖이나 중첩된 함수 안에서 호출할 수 없다. (컴포넌트 함수 안에서 직접적으로 호출되어야만 한다.)
 
@@ -145,7 +145,7 @@ import React, { useState } from "react";
 const [현재 상태 값, 업데이트하는(setter)함수] = useState(초깃값)
 ```
 
-useState 동작 방식?  
+**useState 동작 방식?**  
 내가 호출한 컴포넌트 함수는 해당 state를 업데이트하는 함수인데 useState로 상태를 초기화 했던 곳에서 다시 실행된다.  
 state가 변할 때 해당 컴포넌트 함수를 다시 호출하고싶으면 state를 업데이트하는 함수(setter)를 호출하면 된다.  
 setter함수를 호출해서 해당 state에 새로운 값을 할당하고 싶다고 리액트에게 말하고 그 다음 setter함수는 useState로 state가 등록된 컴포넌트는 재평가 되어야한다고 리액트에게 말한다.  
@@ -153,6 +153,72 @@ setter함수를 호출해서 해당 state에 새로운 값을 할당하고 싶�
 그런 후 이전과 비교하여 감지된 변화들을 화면에 나타나게 해준다.
 
 <br>
+
+**state 자세하게 알아보기**
+
+```js
+// App.js 파일
+const App = () => {
+  return (
+    <>
+      <Component title="ONE" />
+      <Component title="TWO" />
+      <Component title="THREE" />
+    </>
+  );
+};
+
+// Component.js 파일
+const Component = (props) => {
+  const [title, setTitle] = useState(props.title);
+
+  function clickHandler() {
+    setTitle("Update!");
+  }
+
+  return (
+    <div>
+      <h2>{title}</h2>
+      <button onClick={clickHandler}>BUTTON</button>
+    </div>
+  );
+};
+```
+
+버튼을 누르면 제목이 Update!로 바뀌는 예제 코드를 간단하게 작성해보았다.  
+useState는 state값을 등록하고 호출된 컴포넌트를 위한 것이다.  
+특정 컴포넌트의 인스턴스를 위해 state를 등록하는데 예를들어,  
+Component.js 파일에서 Component는 한 번 정의했지만 App.js 파일에서 App은 세개의 `<Component />`를 생성했고 `<Component />`를 세 번 호출했다.  
+매번 호출할 때마다 동일한 방법으로 새로운 별도의 state가 생성되지만 리액트에 의해 독립적으로 관리된다.  
+만약 첫 번째 `<Component />`에서 title을 변경해도 다른 아이템들은 영향을 받지 않는데 이는 자신들만의 state를 가지고있기 때문이다.  
+(컴포넌트별 인스턴스 기반으로 해서 독립적인 state를 갖는다.)
+
+**const 사용하는 이유?**  
+위의 코드에서 `const [title, setTitle] = useState(props.title);` 새로운 값을 할당할 때 상수를 사용했다.  
+state를 업데이트 할 때 아래 코드 주석 부분처럼 등호를 사용해서 값을 할당하지 않는데 이는 새로운 값을 할당하는 방법이 아니다.
+
+```js
+function clickHandler() {
+  // title = Update! // 잘못 된 방법
+  setTitle("Update!");
+}
+```
+
+대신 state를 업데이트하는 setter 함수를 호출하는데 useState를 호출해서 리액트에게 어떤 값을 관리한다고 선언한다.  
+그래서 상수형을 써도 무방하다.
+
+그럼 가장 최신의 값을 어떻게 가져오는 걸까?  
+컴포넌트형 함수에서는 state가 업데이트 되면 재실행이 되는데 컴포넌트형 함수가 다시 실행될 때마다 `const [title, setTitle] = useState(props.title);` 이 부분이 다시 실행된다.  
+그래서 setTitle을 호출해서 새로운 title을 할당하면 `<Compnent />`를 다시 불러오게 되고 업데이트 된 title은 state를 관리하는 리액트에서 가져온다.  
+리액트는 useState가 반환하는 배열에서 가장 최신의 상태를 우리에게 제공하는데 그래서 컴포넌트가 재실행될 때마다 항상 최신 상태의 화면을 갖게 된다.  
+리액트는 처음으로 주어진 컴포넌트 인스턴스에서 useState를 호출할 때 기록하는데, 그래서 우리가 처음 호출 할 때 해당 인자를 초깃값으로 취하는 것이고(`useState(초깃값)`), 컴포넌트가 재실행 되었을 때 그땐 상태가 변했기 때문에 리액트는 state를 다시 초기화하지 않는다.(초깃값은 처음으로 컴포넌트형 함수가 실행될 때만 고려되는 값이다.)  
+대신 상태가 초기화 됐던 것을 추적하여 어떤 state가 업데이트 되었는지 확인하고 최신의 state를 제공한다.
+
+**useState 간략하게 총 정리**  
+useState를 사용해서 상태를 등록하면 항상 두 개의 값을 얻는데 현재 상태값과 업데이트하는 함수이다. 그리고 state가 변할 때마다 업데이트 함수를 호출한다. JSK코드에서 변한 값을 출력하기 위해 상태값을 사용하고싶을 때마다 첫번째 요소를 사용한다.  
+이제 리액트가 나머지 작업을하는데 상태가 변할 때마다 컴포넌트형 함수를 다시 실행하고 JSX코드를 다시 평가한다.
+
+응용프로그램에 반응성을 추가하는것이 state이고, state가 없다면 사용자 인터페이스는 변하지 않기 때문에 중요하다.
 
 ---
 
