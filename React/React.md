@@ -220,6 +220,22 @@ useState를 사용해서 상태를 등록하면 항상 두 개의 값을 얻는�
 
 응용프로그램에 반응성을 추가하는것이 state이고, state가 없다면 사용자 인터페이스는 변하지 않기 때문에 중요하다.
 
+<br>
+
+## State 끌어올리기(Lifting State Up)
+
+데이터를 자식 컴포넌트에서 부모 컴포넌트로 이동하는 방법  
+props를 사용해서 부모 컴포넌트로부터 함수를 받고 자식 컴포넌트에서 그 함수를 불러온다.
+
+<img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/14affa5a-1377-437d-849a-a2c83a4bc579/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221117%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221117T081340Z&X-Amz-Expires=86400&X-Amz-Signature=2c2fcb9b9173ee2cd942dd11b1e60e6c0b0f52f623500a706ade08e05b5e3f53&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject">
+
+A와 B를 렌더링 하는 App 컴포넌트가 있는데 B컴포넌트는 몇몇 데이터를 생성하는 컴포넌트라고 해보자. B컴포넌트에서 데이터를 생성하고 있지만 B컴포넌트에서 그 데이터를 사용하지 않을 수 있고 다른 컴포넌트에서 B컴포넌트가 생성한 데이터가 필요할 수 있다.  
+만약 A컴포넌트에서 B컴포넌트가 생성한 데이터가 필요하다면 B컴포넌트에서 A컴포넌트로 데이터를 주고싶지만 두 형제 컴포넌트는 직접적으로 연결되어 있지 않아 데이터를 주고 받을 수 없다.  
+부모->자식, 자식->부모로만 소통 가능하여 가장 가까운 부모 컴포넌트를 활용하여 데이터를 주고 받을 수 있다.  
+state를 가장 가까운 관련된 컴포넌트에 저장할 수 있기 때문에 B컴포넌트에서 생성된 상태 데이터를 끌어올려 App컴포넌트에 전달한다.  
+따라서 상태 끌어올리기는 자식 컴포넌트에서 어떤 부모 컴포넌트로 데이터를 이동해서 부모에서 사용하거나, 다른 자식 컴포넌트로 데이터를 전달하는 것이다.  
+항상 루트 App 컴포넌트까지 상태를 끌어올려야 하는 것은 아니고 컴포넌트 트리에서 필요한 만큼 끌어올리면 되는데, 데이터를 생성하는 컴포넌트와 데이터가 필요한 컴포넌트에 접근할 수 있으면 된다.
+
 ---
 
 <br>
