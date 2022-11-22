@@ -47,6 +47,55 @@ root.render(<App />); // render 메서드를 통해 이 div 태그를 통해 뭘
 <a href="https://ko.reactjs.org/docs/introducing-jsx.html">JSX React 공식문서</a>  
 자바스크립트를 확장한 문법
 
+**JSX의 역할**  
+XML/HTML 코드를 자바스크립트로 변환하는 과정을 거치게 되는데 JSX 코드로 작성해도 최종적으로 자바스크립트 코드가 나온다.  
+JSX를 자바스크립트 코드로 변환하는 역할을 함수는 `React.createElement()`  
+아래 Hello 컴포넌트 예시를 보면 컴포넌트 내부에서 JSX를 사용한 부분이 `React.createElement()`라는 함수로 대체된 것을 볼 수 있다. JSX문법을 사용하면 리액트에서 내부적으로 `React.createElement()`라는 함수를 사용하도록 변환하고 최종적으로 `React.createElement()`를 호출한 결과로 자바스크립트 객체가 나오게 된다.
+
+```js
+// JSX를 사용한 코드
+const element = <h1 className="greeting">Hello, world!</h1>;
+
+// JSX를 사용하지 않은 코드
+const element = React.createElement(
+  "h1",
+  { className: "greeting" },
+  "Hello, world!"
+);
+
+// React.createElement()의 결과로 객체가 생성된다.
+const element = {
+  type: "h1",
+  props: {
+    className: "greeting",
+    children: "Hello, world!",
+  },
+};
+```
+
+```js
+// JSX를 사용한 코드
+class Hello extends React.Component {
+  render() {
+    return <div>Hello {this.props.toWhat}</div>;
+  }
+}
+
+ReactDOM.render(<Hello toWhat="world" />, document.getElementById("root"));
+
+// JSX를 사용하지 않은 코드
+class Hello extends React.Component {
+  render() {
+    return React.createElement("div", null, `Hello ${this.props.toWhat}`);
+  }
+}
+
+React.render(
+  React.creatElement(Hello, { toWhat: "World" }, null),
+  document.getElementById("root")
+);
+```
+
 <br>
 
 ### 리액트로 작성된 컴포넌트는 어떤 것일까?
