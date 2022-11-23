@@ -483,3 +483,20 @@ this.setState({
   name: "Wang",
 });
 ```
+
+<br>
+<br>
+
+## LifeCycle
+
+### 리액트 클래스 컴포넌트의 생명주기
+
+컴포넌트가 계속 존재하는 것이 아닌, 시간의 흐름에 따라 생성되고 업데이트 되다가 사라진다.
+
+<img src='./referenceImg/LifeCycle.png'>
+
+하단의 초록색 부분(`componentDidMount`, `componentDidUpdate`, `componentWillUnmount`)은 생명주기에 따라 호출되는 클래스 컴포넌트의 함수(라이프사이클 메서드, 생명주기 함수)
+
+- 컴포넌트가 생성되는 시점(Mount) : 이 때 constructor(생성자)가 실행된다. 생성자에서 컴포넌트의 state를 정의한다. 컴포넌트가 렌더링되며 이후에 `componentDidMount()`가 호출 된다.
+- Update : 컴포넌트의 props가 변경되거나 setState함수 호출에 의해 state가 변경되거나 forceUpdate함수(강제 업데이트 함수)로 인해 컴포넌트가 다시 렌더링 된다. 렌더링 이후에 `componentDidUpdate()`가 호출된다.
+- 컴포넌트가 사라지는 시점(Unmount) : 상위 컴포넌트에서 현재 컴포넌트를 더이상 화면에 표시하지 않을 때 Unmount가 된다. Unmount 직전에 `componentWillUnmount()`가 호출된다.
