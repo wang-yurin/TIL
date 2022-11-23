@@ -447,3 +447,39 @@ ReactDOM.render(element, document.getElementByID("root"));
 - 엘리먼트가 불변성을 갖고있다는 것은 한번 생성된 엘리먼트는 변하지 않는다는 것이다. (엘리먼트 생성후에는 children이나 attributes를 바꿀 수 없다.)
   - Q. 한번 생성된 엘리먼트는 바꿀 수 없다고 했는데 그럼 화면이 바뀌어야 할 때 갱신이 안되는거 아닌가요?  
     A. 붕어빵 틀을 컴포넌트, 틀에서 구워져 나온 붕어빵을 엘리먼트라고한다면 이미 구워져 나온 붕어빵은 엘리먼트 생성이 완료된 것이므로 바꿀 수가 없다. 그렇기 때문에 화면의 변경된 엘리먼트들을 보여주기 위해서는 기존의 엘리먼트를 변경하는게 아니라 새로운 엘리먼트를 만들어서 기존 엘리먼트와 교체해야하는 것이다.
+
+## State?
+
+- 리액트 컴포넌트의 변경 가능한 데이터
+- state는 개발자가 정의한다.
+- 렌더링이나 데이터 흐름에 사용되는 값만 state에 포함시켜야한다. (state가 변경될 경우 컴포넌트가 재렌더링 되기 때문에 렌더링과 데이터 흐름에 관계없는 값을 state에 포함시키면 불필요한 경우에 컴포넌트가 재렌더링 되어 성능 저하에 원인이 된다.)
+- state는 자바스크립트 객체이다.
+
+```js
+class LikeButton extends React.Component {
+  // constructor: 클래스가 생성될 때 실행되는 함수
+  constructor(props) {
+    super(props);
+
+    // 현재 컴포넌트의 state를 정의하는 부분
+    this.state = {
+      liked: false
+    }
+  }
+  ...
+}
+```
+
+- state는 직접 수정할 수 없다. (수정이 가능하긴 하지만 하면 안됨)
+
+```js
+// state를 직접 수정 (잘못된 사용법)
+this.state = {
+  name: "Wang",
+};
+
+// setState 함수를 통한 수정 (올바른 사용법)
+this.setState({
+  name: "Wang",
+});
+```
