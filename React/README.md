@@ -409,6 +409,22 @@ useMemo(() => 함수, 의존성배열);
 ```
 
 <br>
+
+## useRef
+
+- Reference를 사용하기 위한 Hook
+- reference? 특정 컴포넌트에 접근할 수 있는 객체
+- reference에는 currnent 속성이 있는데 (refObject.current) current는 현재 참조하고 있는 엘리먼트를 뜻한다.
+
+```js
+const refContainer = useRef(초깃값);
+
+// 해당 초깃값으로 초기화된 레퍼런스 객체를 반환한다.
+// 초깃값이 null이라면 current의 값이 null인 레퍼런스 객체가 반환된다.
+// 이렇게 반환된 레퍼런스 객체는 컴포넌트 라이프타임 전체에 걸쳐 유지된다. (컴포넌트가 마운트 해제 전까지 계속 유지된다.)
+```
+
+<br>
 <br>
 
 # 🧐 Quiz
