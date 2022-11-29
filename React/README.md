@@ -390,6 +390,25 @@ const memoizedValue = useMemo(() => {
 ```
 
 <br>
+
+## useCallback
+
+- `useMemo()`와 비슷하지만 값이 아닌 함수를 반환한다.
+- 컴포넌트가 렌더링 될 때마다 함수를 새로 정의하는 것이 아니라 의존성 배열의 값이 바뀐 경우에만 함수를 새로 정의해서 리턴한다.
+
+```js
+const memoizedCallback = useCallback(() => {
+  doSomething(의존성변수1, 의존성변수2);
+}, [의존성변수1, 의존성변수2]);
+```
+
+```js
+// 동일한 역할을 하는 두 줄의 코드
+useCallback(함수, 의존성배열);
+useMemo(() => 함수, 의존성배열);
+```
+
+<br>
 <br>
 
 # 🧐 Quiz
