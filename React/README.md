@@ -33,7 +33,7 @@ React 애플리케이션 전체에서 사용하는 유일한 HTML 파일(싱글 
 
 ```js
 // index.js 파일
-const root = ReactDOM.createRoot(document.getElementById("root")); // ---> id가 root를 가진 이 코드가 아래의 div 태그를 의미한다.
+const root = ReactDOM.createRoot(document.getElementById('root')); // ---> id가 root를 가진 이 코드가 아래의 div 태그를 의미한다.
 root.render(<App />); // render 메서드를 통해 이 div 태그를 통해 뭘 랜더링 해야하는지 알려준다.
 
 // index.html파일
@@ -58,17 +58,17 @@ const element = <h1 className="greeting">Hello, world!</h1>;
 
 // JSX를 사용하지 않은 코드
 const element = React.createElement(
-  "h1",
-  { className: "greeting" },
-  "Hello, world!"
+  'h1',
+  { className: 'greeting' },
+  'Hello, world!'
 );
 
 // React.createElement()의 결과로 객체가 생성된다.
 const element = {
-  type: "h1",
+  type: 'h1',
   props: {
-    className: "greeting",
-    children: "Hello, world!",
+    className: 'greeting',
+    children: 'Hello, world!',
   },
 };
 ```
@@ -81,18 +81,18 @@ class Hello extends React.Component {
   }
 }
 
-ReactDOM.render(<Hello toWhat="world" />, document.getElementById("root"));
+ReactDOM.render(<Hello toWhat="world" />, document.getElementById('root'));
 
 // JSX를 사용하지 않은 코드
 class Hello extends React.Component {
   render() {
-    return React.createElement("div", null, `Hello ${this.props.toWhat}`);
+    return React.createElement('div', null, `Hello ${this.props.toWhat}`);
   }
 }
 
 React.render(
-  React.creatElement(Hello, { toWhat: "World" }, null),
-  document.getElementById("root")
+  React.creatElement(Hello, { toWhat: 'World' }, null),
+  document.getElementById('root')
 );
 ```
 
@@ -148,7 +148,7 @@ function Correct() {
 ```js
 function Example() {
   const clickHandler = () => {
-    console.log("clicked!");
+    console.log('clicked!');
   };
   return (
     <Component>
@@ -190,7 +190,7 @@ function Example() {
 ```js
 // 전반적인 리액트 객체를 임포트 했고 리액트 라이브러리에서 필요한 일부 라이브러리만 임포트하고 싶다면 {}안에 작성하기
 // 현재 useState라는 함수를 임포트
-import React, { useState } from "react";
+import React, { useState } from 'react';
 ```
 
 `useState`는 리액트 라이브러리에서 제공하는 함수이다.  
@@ -236,7 +236,7 @@ const Component = (props) => {
   const [title, setTitle] = useState(props.title);
 
   function clickHandler() {
-    setTitle("Update!");
+    setTitle('Update!');
   }
 
   return (
@@ -263,7 +263,7 @@ state를 업데이트 할 때 아래 코드 주석 부분처럼 등호를 사용
 ```js
 function clickHandler() {
   // title = Update! // 잘못 된 방법
-  setTitle("Update!");
+  setTitle('Update!');
 }
 ```
 
@@ -354,6 +354,39 @@ useEffect(() => {
     ...
   }
 }, [의존성변수1, 의존성변수2, ...])
+```
+
+<br>
+<br>
+
+## useMemo
+
+- Memoized value를 리턴하는 Hook
+- 메모이제이션(Memoization)은 최적화를 위해 사용되는 개념인데 비용이 높은(연산량이 많은) 함수의 호출의 결과를 저장해두었다가 같은 입력값으로 함수를 호출하면 새로 함수를 호출하지 않고 이전에 저장해 두었던 호출 결과를 반환한다. 함수 호출 결과를 받기까지 걸리는 시간도 짧아지며 불필요한 중복연산을 하지않아 컴퓨터의 자원을 적게 쓴다. 메모이제이션이 된 결괏값을 Memoized value라고 한다.
+
+```js
+const memoizedValue = useMemo(() => {
+  // 연산량이 높은 작업을 수행하여 결과를 반환
+  return computeExpensiveValue(의존성변수1, 의존성변수2);
+}, [의존성변수1, 의존성변수2]);
+
+// useMemo 훅은 파라미터로 memoized value를 생성하는 create 함수와 의존성 배열을 받는다.
+// 의존성 배열에 있는 변수가 변하면 create 함수가 호출되어 결괏값을 반환하며 그렇지 않은 경우에는 기존에 있는 결괏값을 그대로 반환한다.
+// 컴포넌트가 렌더링 될 때마다 연산량이 높은 작업을 반복하는 것을 피할 수 있다. (빠른 렌더링 속도)
+// useMemo로 전달된 함수는 렌더링이 일어나는 동안에만 실행된다. 렌더링이 일어날 때 실행되면 안되는 작업은 useMemo에 넣으면 안된다. (useEffect에서 실행 되어야 할 side effect 같은 것은 useMemo X, 서버에서 데이터를 받아오거나 수동으로 DOM을 변경하는 작업도 렌더링이 일어나는 동안에 실행되서는 안되기 때문에 useMemo X)
+```
+
+```js
+// 의존성 배열을 넣지 않을 경우 매 렌더링할 때마다 함수가 실행된다.
+// 의존성 배열을 넣지않고 사용하는 것은 아무런 의미가 없다.
+const memoizedValue = useMemo(() => computeExpensiveValue(a, b));
+```
+
+```js
+// 의존성 배열이 빈 배열일 경우 컴포넌트 마운트 시에만 호출된다.(마운트 이후에 값이 변경되지 않는다.)
+const memoizedValue = useMemo(() => {
+  return computeExpensiveValue(a, b);
+}, []);
 ```
 
 <br>
@@ -513,7 +546,7 @@ A. 아무 JS 표현식을 단일 중괄호{}로 감싸 사용한다.
 // 리액트는 이 엘리먼트를 이용해서 실제 화면에서 보여질 DOM Element를 생성한다.
 
 const element = <h1>Hello, world</h1>;
-ReactDOM.render(element, document.getElementByID("root"));
+ReactDOM.render(element, document.getElementByID('root'));
 ```
 
 ### Elements의 생김새
@@ -550,12 +583,12 @@ class LikeButton extends React.Component {
 ```js
 // state를 직접 수정 (잘못된 사용법)
 this.state = {
-  name: "Wang",
+  name: 'Wang',
 };
 
 // setState 함수를 통한 수정 (올바른 사용법)
 this.setState({
-  name: "Wang",
+  name: 'Wang',
 });
 ```
 
@@ -575,3 +608,5 @@ this.setState({
 - 컴포넌트가 생성되는 시점(Mount) : 이 때 constructor(생성자)가 실행된다. 생성자에서 컴포넌트의 state를 정의한다. 컴포넌트가 렌더링되며 이후에 `componentDidMount()`가 호출 된다.
 - Update : 컴포넌트의 props가 변경되거나 setState함수 호출에 의해 state가 변경되거나 forceUpdate함수(강제 업데이트 함수)로 인해 컴포넌트가 다시 렌더링 된다. 렌더링 이후에 `componentDidUpdate()`가 호출된다.
 - 컴포넌트가 사라지는 시점(Unmount) : 상위 컴포넌트에서 현재 컴포넌트를 더이상 화면에 표시하지 않을 때 Unmount가 된다. Unmount 직전에 `componentWillUnmount()`가 호출된다.
+
+<br>
