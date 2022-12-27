@@ -1,7 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <div>
+      <h1>Home</h1>
+      <p>가장 먼저 보이는 페이지</p>
+      <Link to="/about">소개</Link>
+    </div>
+  );
 };
 
 export default Home;
