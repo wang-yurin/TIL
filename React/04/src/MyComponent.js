@@ -36,18 +36,57 @@
 
 // propType을 통한 props 검증
 // 필수 props 지정 또는 props의 타입을 지정할 때
+// import PropTypes from 'prop-types';
+// const MyComponent = ({ name, children, favoriteNumber }) => {
+//   return (
+//     <div>
+//       하이, 내 이름은 {name}
+//       <br />
+//       children의 값은 {children}이지
+//       <br />
+//       내가 좋아하는 숫자는 {favoriteNumber}
+//     </div>
+//   );
+// };
+
+// MyComponent.defaultProps = {
+//   name: '기본 이름',
+// };
+
+// MyComponent.propTypes = {
+//   name: PropTypes.string, // name의 값은 무조건 string 형태로 전달
+//   favoriteNumber: PropTypes.number.isRequired, // favoriteNumber의 값이 무조건 지정되어있어야함
+// };
+
+// export default MyComponent;
+
+import { Component } from 'react';
 import PropTypes from 'prop-types';
-const MyComponent = ({ name, children, favoriteNumber }) => {
-  return (
-    <div>
-      하이, 내 이름은 {name}
-      <br />
-      children의 값은 {children}이지
-      <br />
-      내가 좋아하는 숫자는 {favoriteNumber}
-    </div>
-  );
-};
+class MyComponent extends Component {
+  // defaultProps, propTypes class 내부에서 지정하는 방법
+  static defaultProps = {
+    name: '기본 이름',
+  };
+
+  static propTypes = {
+    name: PropTypes.string,
+    favoriteNumber: PropTypes.number.isRequired,
+  };
+
+  render() {
+    const { name, children, favoriteNumber } = this.props;
+    console.log(this.props);
+    return (
+      <div>
+        하이, 내 이름은 {name}
+        <br />
+        children의 값은 {children}이지
+        <br />
+        내가 좋아하는 숫자는 {favoriteNumber}
+      </div>
+    );
+  }
+}
 
 MyComponent.defaultProps = {
   name: '기본 이름',
