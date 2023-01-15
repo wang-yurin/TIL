@@ -4,19 +4,26 @@
 <body>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- 2. Babel CDN 넣기 (구글 검색 키워드 babel unpkg cdn...)-->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
   <div id="root"></div>
 
-  <script>
+  <!-- 4. 이 스크립트는 바벨이 컴파일링 해줘야하는 스크립트이고 컴파일 해주면 아래 JSX 문법을 React.createElement와 같이 동작하게 해준다. -->
+  <script type="text/babel"> // 3. 자바스크립트가 읽는 스크립트와 바벨이 읽는 스크립트가 다르기 떄문에 type="text/babel" 작성
     const rootElement = document.getElementById('root')
+    // 1. 그냥 아래처럼 JSX 작성하면 자바스크립트는 이해할 수 없고 바벨만 이해할 수 있음
+    // const element = <h1 className='title'>Hello world!</h1>
 
-    // const element = document.createElement('h1')
-    const element = React.createElement('h1', { className: 'title', children: ['hello world', "It's me", 'good'] }, 'hello world!!!') // children에 넣어도 세번째 인자가 먼저 그려진다. (세번째 인자가 없으면 children이 그려짐)
-    // element.textContent = 'hello world'
-
+    // JSX의 장점
+    const text = 'Hello world!!!!!'
+    const titleClassName = 'title'
+    // const customH1 = <h1 className={titleClassName}>{text}</h1>
+    // const customH1 = <h1 className={titleClassName} children={text} />
+    const props = { className: titleClassName, children: text }
+    const customH1 = <h1 {...props} />
+    const element = customH1
     ReactDOM.render(element, rootElement)
-    // rootElement.appendChild(element)
-
-    console.log(element)
   </script>
 </body>
 
