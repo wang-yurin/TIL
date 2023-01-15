@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<body>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <div id="root"></div>
+
+  <script>
+    const rootElement = document.getElementById('root')
+
+    // const element = document.createElement('h1')
+    const element = React.createElement('h1', { className: 'title', children: ['hello world', "It's me", 'good'] }, 'hello world!!!') // children에 넣어도 세번째 인자가 먼저 그려진다. (세번째 인자가 없으면 children이 그려짐)
+    // element.textContent = 'hello world'
+
+    ReactDOM.render(element, rootElement)
+    // rootElement.appendChild(element)
+
+    console.log(element)
+  </script>
+</body>
+
+</html>
