@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<body>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const rootElement = document.getElementById('root')
+
+    // const Paint = ({ title, description, children }) => (
+    //   <>
+    //     <h1>{title}</h1>
+    //     <h3>{description}</h3>
+    //     {children}
+    //   </>
+    // )
+
+    // const element = (
+    //   <>
+    //     <Paint title='Good' description='good'>
+    //       {Paint({ title: 'Bad', description: 'bad', children: 'hi' })}
+    //     </Paint>
+    //   </>
+    // )
+
+
+    // Interpolation in React : 하나의 문서 flow 안에서 여러가지 타입을 섞어 쓰는 것 (현재 js와 jsx를 섞어쓰고있다.)
+    // const Text = ({ text }) => {
+    //   // text가 대문자로 시작하면 h1, 소문자로 시작하면 h3
+    //   if (text.charAt(0) === text.charAt(0).toUpperCase()) {
+    //     return <h1>{text}</h1>
+    //   } else {
+    //     return <h3>{text}</h3>
+    //   }
+    // }
+
+    // const element = (
+    //   <>
+    //     <Text text='Text' />
+    //     <Text text='text' />
+    //   </>
+    // )
+
+    function Number({ number }) {
+      // number가 짝수면 h1, 홀수면 h3
+      return number % 2 === 0 ? <h1>{number}</h1> : <h3>{number}</h3>
+    }
+    const element = (
+      // <>
+      //   <Number number={10} />
+      //   <Number number={15} />
+      // </>
+
+      <>
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(number => number % 2 === 0 ? <h1>{number}</h1> : <h3>{number}</h3>)}
+      </>
+    )
+    ReactDOM.render(element, rootElement)
+  </script>
+</body>
+
+</html>
