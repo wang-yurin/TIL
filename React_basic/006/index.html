@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<title>8강 리액트의 리렌더링 알아보기</title>
+
+<body>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <div id="root"></div>
+
+  <script>
+    // const rootElement = document.getElementById('root')
+
+    // const random = () => {
+    //   const number = Math.floor(Math.random() * 10 + 1)
+    //   const element = `<button>${number}</button>`
+    //   rootElement.innerHTML = element
+    // }
+    // setInterval(random, 1000)
+    // 자바스크립트로하면 리렌더링 될 때마다 새로운 엘리먼트가 생성되기 때문에 버튼에 포커스를 잡아 놓으면 렌더링 되면서 컴포넌트가 새로 그려지기 때문에 1초마다 포커스를 잃는다.
+    // 개발자 도구를 보면 div와 button 엘리먼트 부분이 깜박거리는 것을 볼 수 있다.
+  </script>
+
+  <script type="text/babel">
+    const rootElement = document.getElementById('root')
+
+    const random = () => {
+      const number = Math.floor(Math.random() * 10 + 1)
+      const element = <>
+        <button>{number}</button>
+        <p>{number}</p>
+      </>
+      ReactDOM.render(element, rootElement)
+    }
+    setInterval(random, 1000)
+    // 버튼에 포커스를 하면 포커스가 잃어지지 않는다. 이는 버튼이 새로 만들어지는게 아니라 글자만 바뀌고 있다.
+    // 개발자 도구를 켜서 보면 부모인 div가 변경되지 않고 변경되는 부분만 변경되는 것을 볼 수 있다(깜박거림) JS로 만든 것과 다르게 이벤트 전파가 되지 않고 변경될 부분만 변경됨.
+  </script>
+</body>
+
+</html>
