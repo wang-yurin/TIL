@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<title>11강 이벤트 핸들러 써보기</title>
+
+<body>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const rootElement = document.getElementById('root')
+
+    const state = { keyword: '', typing: false, result: '' }
+
+    const App = () => {
+      function handleChange(event) {
+        setState({
+          keyword: event.target.value,
+          typing: true
+        })
+      }
+
+      function handleClick() {
+        setState({
+          typing: false,
+          result: `We find result of ${state.keyword}`
+        })
+      }
+      return (
+        <>
+          <input onChange={handleChange} />
+          <button onClick={handleClick} >Search</button>
+          <p>{state.typing ? `Looking for ${state.keyword}...` : state.result}</p>
+        </>
+      )
+    }
+
+    function setState(newState) {
+      Object.assign(state, newState)
+      render()
+    }
+
+    function render() {
+      ReactDOM.render(<App />, rootElement)
+    }
+    render()
+
+    // input에 onChange 이벤트를 달았다. 이 이벤트에서는 인풋에 값을 입력할 때마다 event.target.value에 접근하고 전역에 설정해놓은 state 객체는 setState함수를 만들어서 Object.assign을 하여 이전 객체를 새로운 객체에 덮어씌웠다. 여기서 render를 한번만 실행했더니 변화가 적용되지 않아 setState를 할 때마다 render함수가 실행되게 하였고 ReactDom.render는 리액트가 알아서 돔 안에서 변경이 없으면 안바꾸고 변경이 있는 props들만 바꾼다. 
+  </script>
+</body>
+
+</html>
