@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<title>10강 이벤트 핸들러 써보기</title>
+
+<body>
+  <!-- JS 방식 -->
+  <!-- <button id='button' onclick="document.getElementById('demo').innerHTML=Date()">The time is?</button>
+
+<p id="demo"></p>
+
+<script>
+const button = document.getElementById('button')
+button.addEventListener('mouseout', () => alert('bye'))
+button.addEventListener('click', () => alert('press'))
+</script> -->
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const rootElement = document.getElementById('root')
+    // const element = <button onClick={() => alert('pressed')} onMouseOut={() => alert('bye')}>Press</button>
+
+    const handleClick = () => alert('pressed')
+    const handleMouseOut = () => alert('bye')
+    const element = <button onClick={handleClick} onMouseOut={handleMouseOut}>Press</button>
+
+    ReactDOM.render(element, rootElement)
+  </script>
+</body>
+
+</html>
