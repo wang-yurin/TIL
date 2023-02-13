@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+<title>17강 hook flow 이해하기</title>
+
+<body>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const rootElement = document.getElementById('root')
+
+    const Child = () => {
+      console.log('Child render start')
+
+      const [text, setText] = React.useState(() => {
+        console.log('Child useState')
+        return ''
+      })
+
+      React.useEffect(() => {
+        console.log('Child useEffect, no deps')
+      })
+      React.useEffect(() => {
+        console.log('Child useEffect, empty deps')
+      }, [])
+      React.useEffect(() => {
+        console.log('Child useEffect, [text]')
+      }, [text])
+
+      function handleChange(event) {
+        setText(event.target.value)
+      }
+      const element = (
+        <>
+          <input onChange={handleChange} />
+          <p>{text}</p>
+        </>
+      )
+      console.log('Child render end')
+      return element
+    }
+
+    const App = () => {
+      console.log('App render start')
+
+      const [show, setShow] = React.useState(() => {
+        console.log('App useState')
+        return false
+      })
+
+      React.useEffect(() => {
+        console.log('App useEffect, no deps')
+      })
+      React.useEffect(() => {
+        console.log('App useEffect, empty deps')
+      }, [])
+      React.useEffect(() => {
+        console.log('App useEffect, [show]')
+      }, [show])
+
+      function handleClick() {
+        setShow(prev => !prev)
+      }
+
+      console.log('App render end')
+
+      return (
+        <>
+          <button onClick={handleClick}>Search</button>
+          {show ? <Child /> : null}
+        </>
+      )
+    }
+
+    ReactDOM.render(<App />, rootElement)
+
+    /*
+    (text state 만들기 전) 처음 실행 되었을 때 
+    App render start
+    App useState
+    App render end
+    App useEffect, no deps
+    App useEffect, empty deps
+    App useEffect, [show]
+
+    (text state 만들기 전) Search 버튼을 눌렀을 때 (인풋 나타남)
+    App render start
+    Child render start
+    Child render end
+    App useEffect, no deps
+    App useEffect, [show]
+
+    (text state 만들기 전) Search 버튼을 한번 더 눌렀을 때 (인풋 없어짐)
+    App render start
+    App useEffect, no deps
+    App useEffect, [show]
+    */
+
+    /*
+    (text state 만든 후) 처음 실행 되었을 때
+    App render start
+    App useState
+    App render end
+    App useEffect, no deps
+    App useEffect, empty deps
+    App useEffect, [show]
+
+    (text state 만든 후) Search 버튼 눌렀을 때 (인풋 나타남)
+    App render start
+    App render end
+    Child render start
+    Child useState
+    Child render end
+    Child useEffect, no deps
+    Child useEffect, empty deps
+    Child useEffect, [text]
+    App useEffect, no deps
+    App useEffect, [show]
+    여기에서 알 수 있는건 부모(App)가 다 그려지고나서 Child가 그려지긴 하는데 Child가 다 그려지고 나서 App의 useEffect가 일어나는게 아니라 Child의 useEffect까지 모두 일어나고 나서 App의 useEffect가 일어난다.
+
+    (text state 만든 후) 인풋에 값 입력
+    Child render start
+    Child render end
+    Child useEffect, no deps
+    Child useEffect, [text]
+    */
+  </script>
+</body>
+
+</html>
