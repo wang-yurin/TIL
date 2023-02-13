@@ -22,12 +22,26 @@
 
       React.useEffect(() => {
         console.log('Child useEffect, no deps')
+
+        return () => {
+          console.log('Child useEffect [CleanUp], no deps')
+        }
       })
+
       React.useEffect(() => {
         console.log('Child useEffect, empty deps')
+
+        return () => {
+          console.log('Child useEffect [CleanUp], empty deps')
+        }
       }, [])
+
       React.useEffect(() => {
         console.log('Child useEffect, [text]')
+
+        return () => {
+          console.log('Child useEffect [CleanUp], [text]')
+        }
       }, [text])
 
       function handleChange(event) {
@@ -53,12 +67,26 @@
 
       React.useEffect(() => {
         console.log('App useEffect, no deps')
+
+        return () => {
+          console.log('App useEffect [CleanUp], no deps')
+        }
       })
+
       React.useEffect(() => {
         console.log('App useEffect, empty deps')
+
+        return () => {
+          console.log('App useEffect [CleanUp], empty deps')
+        }
       }, [])
+
       React.useEffect(() => {
         console.log('App useEffect, [show]')
+
+        return () => {
+          console.log('App useEffect [CleanUp], [show]')
+        }
       }, [show])
 
       function handleClick() {
@@ -78,7 +106,7 @@
     ReactDOM.render(<App />, rootElement)
 
     /*
-    (text state 만들기 전) 처음 실행 되었을 때 
+    (CleanUp 추가) 처음 실행 했을 때
     App render start
     App useState
     App render end
@@ -86,47 +114,43 @@
     App useEffect, empty deps
     App useEffect, [show]
 
-    (text state 만들기 전) Search 버튼을 눌렀을 때 (인풋 나타남)
-    App render start
-    Child render start
-    Child render end
-    App useEffect, no deps
-    App useEffect, [show]
-
-    (text state 만들기 전) Search 버튼을 한번 더 눌렀을 때 (인풋 없어짐)
-    App render start
-    App useEffect, no deps
-    App useEffect, [show]
-    */
-
-    /*
-    (text state 만든 후) 처음 실행 되었을 때
-    App render start
-    App useState
-    App render end
-    App useEffect, no deps
-    App useEffect, empty deps
-    App useEffect, [show]
-
-    (text state 만든 후) Search 버튼 눌렀을 때 (인풋 나타남)
+    (CleanUp 추가) Search 버튼 눌렀을 때 (인풋 나타남)
     App render start
     App render end
     Child render start
     Child useState
     Child render end
+    App useEffect [CleanUp], no deps
+    App useEffect [CleanUp], [show]
     Child useEffect, no deps
     Child useEffect, empty deps
     Child useEffect, [text]
     App useEffect, no deps
     App useEffect, [show]
-    여기에서 알 수 있는건 부모(App)가 다 그려지고나서 Child가 그려지긴 하는데 Child가 다 그려지고 나서 App의 useEffect가 일어나는게 아니라 Child의 useEffect까지 모두 일어나고 나서 App의 useEffect가 일어난다.
+    여기서 알 수 있는건 useEffect는 어떤 변경으로 인해 실행이 되는데 실행이 되기 전에 cleanup이 먼저 실행된다.
 
-    (text state 만든 후) 인풋에 값 입력
+    (CleanUp 추가) 인풋 값 입력했을 때
     Child render start
     Child render end
+    Child useEffect [CleanUp], no deps
+    Child useEffect [CleanUp], [text]
     Child useEffect, no deps
     Child useEffect, [text]
+
+    (CleanUp 추가) Search 버튼 눌렀을 때 (인풋 사라짐)
+    App render start
+    App render end
+    Child useEffect [CleanUp], no deps
+    Child useEffect [CleanUp], empty deps
+    Child useEffect [CleanUp], [text]
+    App useEffect [CleanUp], no deps
+    App useEffect [CleanUp], [show]
+    App useEffect, no deps
+    App useEffect, [show]
     */
+
+    // useEffect는 render가 끝난 뒤에 실행된다. (render와 useState까지 끝나고 나서야 useEffect가 실행되며 children의 useEffect가 먼저 실행된다.)
+    // 어떠한 값이 업데이트 될 때에는 useEffect cleanup이 먼저 일어나고 useEffect가 실행된다. (부모와 children의 관계에서 cleanup이 먼저 일어나는 것은 부모! 부모의 cleanup이 먼저 일어나고 자식 cleanup이 일어난다.)
   </script>
 </body>
 
