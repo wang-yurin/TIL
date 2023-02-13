@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<title>16강 hook flow 이해하기</title>
+
+<body>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const rootElement = document.getElementById('root')
+
+    const App = () => {
+      console.log('App render start')
+      const [show, setShow] = React.useState(() => {
+        console.log('App useState')
+        return false
+      })
+
+      React.useEffect(() => {
+        console.log('App useEffect, no deps')
+      })
+      React.useEffect(() => {
+        console.log('App useEffect, empty deps')
+      }, [])
+      React.useEffect(() => {
+        console.log('App useEffect, [show]')
+      }, [show])
+
+      function handleClick() {
+        // useState로 만든 set함수는 애초에 인자로 이전값이 들어온다.
+        setShow(prev => {
+          // console.log(prev)
+          return !prev
+        })
+      }
+
+      return (
+        <>
+          <button onClick={handleClick}>Search</button>
+          {show ? <>
+            <input />
+            <p></p>
+          </> : null
+          }
+        </>
+      )
+    }
+
+    ReactDOM.render(<App />, rootElement)
+
+    console.log('App render end')
+
+
+    /*
+    콘솔로 찍으면 
+    App render start
+    App useState
+    App render end
+    App useEffect, no deps
+    App useEffect, empty deps
+    App useEffect, [show]
+    이렇게 순서가 나온다.
+
+    여기에서 알 수 있는건 render가 끝난 후에 useEffect가 실행된다.
+    사이드 이펙트이기 때문에 다 그려지고 나서 이펙트가 실행이 된다.
+    */
+  </script>
+</body>
+
+</html>
