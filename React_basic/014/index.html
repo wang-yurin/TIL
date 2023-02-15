@@ -151,6 +151,7 @@
 
     // useEffect는 render가 끝난 뒤에 실행된다. (render와 useState까지 끝나고 나서야 useEffect가 실행되며 children의 useEffect가 먼저 실행된다.)
     // 어떠한 값이 업데이트 될 때에는 useEffect cleanup이 먼저 일어나고 useEffect가 실행된다. (부모와 children의 관계에서 cleanup이 먼저 일어나는 것은 부모! 부모의 cleanup이 먼저 일어나고 자식 cleanup이 일어난다.)
+    // cleaup은 useEffect가 실행되기 직전에 일어나는데, 처음 useEffect가 등록될 때에는 cleanup이 일어나지 않고 그 다음부터 항상 cleanup을 해준다.
   </script>
 </body>
 
