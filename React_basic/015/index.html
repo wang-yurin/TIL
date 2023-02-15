@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<title>19강 리액트 element에 스타일 입히기</title>
+
+<body>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    .button {
+      background-color: #4caf50;
+      border: none;
+      color: #fff;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+
+    .blue {
+      background-color: #008cba;
+    }
+
+    .red {
+      background-color: #f44336;
+    }
+
+    .gray {
+      background-color: #e7e7e7;
+      color: #000;
+    }
+
+    .black {
+      background-color: #555555;
+    }
+  </style>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const rootElement = document.getElementById('root')
+
+    // 동작하지 않음
+    // function Button({ props }) {
+    //   console.log(props) // undefined
+    //   return (
+    //     <button className='button' {...props}></button>
+    //   )
+    // }
+
+    // 모두 적용
+    // function Button(props) {
+    //   return (
+    //     <button className='button' {...props}></button>
+    //   )
+    // }
+
+    // 버튼 컬러만 적용, 글씨와 style(borderRadius) 적용 X 
+    // function Button({ className, style, ...rest }) {
+    //   return (
+    //     <button className={className}></button>
+    //   )
+    // }
+
+    // 버튼 컬러, 글씨 적용 O, style 적용 X
+    // function Button({ className, style, ...rest }) {
+    //   return (
+    //     <button className={className} {...rest}></button >
+    //   )
+    // }
+
+    // const element = () => (
+    //   <>
+    //     <Button className='button' style={{ borderRadius: '50%' }}>Green</Button>
+    //     <Button className='button blue' style={{ borderRadius: '8px' }}>Blue</Button>
+    //     <Button className='button red'>Red</Button>
+    //     <Button className='button gray'>Gray</Button>
+    //     <Button className='button black'>Black</Button>
+    //   </>
+    // )
+
+    function Button({ className = '', color, style, ...rest }) {
+      return <button className={`button ${color}`} style={{ fontSize: 40, ...style }} {...rest}></button>
+    }
+
+    const element = () => (
+      <>
+        <Button style={{ borderRadius: '50%' }}>Green</Button>
+        <Button color='blue' style={{ borderRadius: 8, fontSize: 16 }}>Blue</Button>
+        <Button color='red'>Red</Button>
+        <Button color='gray'>Gray</Button>
+        <Button color='black'>Black</Button>
+      </>
+    )
+
+    ReactDOM.render(element(), rootElement)
+
+    // className => 문자열
+    // style props => 객체, 카멜케이스, className보다 우선순위가 높다. (css에서 인라인 스타일이 우선순위가 높은 것을 생각하면 됌)
+  </script>
+</body>
+
+</html>
