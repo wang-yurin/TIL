@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<title>20강 Ref로 DOM 다루기</title>
+
+<body>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const rootElement = document.getElementById('root')
+
+    const App = () => {
+      const inputRef = React.useRef()
+      const divRef = React.useRef()
+
+      React.useEffect(() => {
+        // document.getElementById('input').focus()
+
+        inputRef.current.focus()
+
+        setTimeout(() => {
+          divRef.current.style.backgroundColor = 'pink'
+        }, 1000)
+      }, [])
+
+      return (
+        <>
+          <input id='input' ref={inputRef} />
+          <div style={{ width: 300, height: 100, backgroundColor: 'brown' }} ref={divRef} />
+        </>
+      )
+    }
+
+    ReactDOM.render(<App />, rootElement)
+
+    // input element가 있고 화면이 뜨자마자 focus를 주고싶다면?
+    // 왜 이걸 DOM 조작하기라고할까? element 조작하기가 아닐까?
+    // https://developer.mozilla.org/ko/docs/Web/API/Document
+
+    // 왜 리액트에서는 document.getElementById류를 사용하지 않고 useRef라는 별도의 방법을 제공할까? => 리액트가 스스로 엘리먼트들을 최적화하는 로직을 가지고있는데(가상돔 재조정을 통한 최적화) document API를 이용해서 직접 엘리먼트에 도달하게 되면 그 안에서 비효율이 발생하게 된다. 그래서 리액트에서 만든 훅으로 관장한다.
+    // useRef는 엘리먼트에 도달하는 것 뿐만 아닌 전역적으로 관리하거나 컴포넌트의 상태 안에서 유일하게 관리하고, 어떤 값으로 라이프사이클과 독립적으로 사용하고 싶지만 리액트의 최적화된 상태로 쓰고싶을 때 저장공간으로 제공하고있다. 
+  </script>
+</body>
+
+</html>
