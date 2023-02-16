@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<title>21강 Form 다루기 2</title>
+
+<body>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const rootElement = document.getElementById('root')
+
+    const App = () => {
+      const [message, setMessage] = React.useState('')
+      const [phoneNumber, setPhoneNumber] = React.useState('')
+
+      function handleSubmit(event) {
+        event.preventDefault()
+        alert(phoneNumber)
+      }
+
+      function handleChange(event) {
+        // 아래와 같이 작성하면 인풋에 0을 입력했을 때 true값이 나와야하는데 false값인'Phone number should starts with 0'가 나온다.
+        // setState를 바로 밑줄에 작성해도 시차가 존재한다. (입력한 값이 바로 들어오지 않는다.)
+        // setPhoneNumber(event.target.value)
+        // if (phoneNumber.startsWith(0)) {
+        //   setMessage('Phone number is valid')
+        // } else {
+        //   setMessage('Phone number should starts with 0')
+        // }
+
+        // 아래와 같이 작성하면 처음 0을 입력했을 때 바로 0인 값이 if문 조건에 맞아 true값이 들어온다.
+        // if (event.target.value.startsWith(0)) {
+        //   setMessage('Phone number is valid')
+        // } else {
+        //   setMessage('Phone number should starts with 0')
+        // }
+        // setPhoneNumber(event.target.value)
+
+        // valid한 값일 때에만 setPhoneNumber하려면 아래와 같이 작성
+        // input value={phoneNumber}이기 때문에 처음에 0이 아닌 값을 입력하면 인풋창에 입력값이 나타나지 않음
+        // 그런데 여기에서도 문제가 있다. 인풋 모두 지우려해도 인풋에 0이 남아있다.
+        // startsWith가 0일 때에만 set하는 조건인데 0이 아닐 때 (인풋 모두 지웠을 때 포함) 빈 값일 때 입력이 되지 않아서 발생하는 문제다.
+        // if (event.target.value.startsWith(0)) {
+        //   setMessage('Phone number is valid')
+        //   setPhoneNumber(event.target.value)
+        // } else {
+        //   setMessage('Phone number should starts with 0')
+        // }
+
+        // 위의 문제를 해결하려면
+        // if (event.target.value.startsWith(0)) {
+        //   setMessage('Phone number is valid')
+        //   setPhoneNumber(event.target.value)
+        // } else {
+        //   setMessage('Phone number should starts with 0')
+        //   setPhoneNumber('')
+        // }
+
+        if (event.target.value.startsWith(0)) {
+          setMessage('Phone number is valid')
+          setPhoneNumber(event.target.value)
+        } else if (event.target.value.length === 0) {
+          setMessage('')
+          setPhoneNumber('')
+        }
+        else {
+          setMessage('Phone number should starts with 0')
+        }
+      }
+
+      return (
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="phone">Phone Number: </label>
+          <br />
+          <input id='phone' name='phone' onChange={handleChange} value={phoneNumber} />
+          <p>{message}</p>
+          <br />
+          <br />
+          <button type="submit" disabled={phoneNumber.length === 0 || message !== 'Phone number is valid'}>Submit</button>
+        </form>
+      )
+    }
+
+    ReactDOM.render(<App />, rootElement)
+
+    // validation check는 onChange로 하는게 좋다. (사용자경험을 위해 / 사용자가 모두 입력하고 체크했을 때 유효하지 않다고 안내가 나오면 좋지않은 사용자 경험을 할 수 있기 때문에 사용자가 입력 할 때마다 유효성 체크를하여 일치 여부를 판단하는 것이 좋은 사용자 경험)
+    // controlled: input의 value를 리액트 컴포넌트에서 직접 관리하는 것 (제어 컴포넌트)
+    // 제어 컴포넌트, 비제어 컴포넌트가 갖는 이점 확인해보기 
+  </script>
+</body>
+
+</html>
