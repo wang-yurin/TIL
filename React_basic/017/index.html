@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<title>21강 Form 다루기 1</title>
+
+<body>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const rootElement = document.getElementById('root')
+
+    const App = () => {
+      function handleSubmit(event) {
+        event.preventDefault()
+        // console.dir(event.target)
+        alert(
+          `Fisrt name: ${event.target.elements.fname.value}
+        Last name: ${event.target.elements.lname.value}
+        Car: ${event.target.elements.cars.valuex}
+        `)
+      }
+
+      return (
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="fname">First name:</label>
+          <br />
+          <input type="text" id='fname' defaultValue='Wang' />
+          <br />
+          <label htmlFor="lname">Last name:</label>
+          <br />
+          <input type="text" id='lname' defaultValue='yurin' />
+          <br />
+          <br />
+          <label htmlFor="cars">Choose a car : </label>
+          <select name="cars" id="cars">
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="fiat">Fiat</option>
+            <option value="audid">Audi</option>
+          </select>
+          <input type='submit' defaultValue='Submit' />
+          <br />
+          <br />
+        </form>
+      )
+    }
+
+    ReactDOM.render(<App />, rootElement)
+
+  </script>
+</body>
+
+</html>
