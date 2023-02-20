@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<title>25강 key와 리랜더링 알아보기 1</title>
+
+<body>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const rootElement = document.getElementById('root')
+
+    const todos = [
+      { id: 1, value: 'Wash dishes' },
+      { id: 2, value: 'Clean the bed' },
+      { id: 3, value: 'Running' },
+      { id: 4, value: 'Learning' }
+    ]
+    const App = () => {
+      const [items, setItems] = React.useState(todos)
+
+      const handleDoneClick = (todo) => {
+        setItems(items => items.filter((item) => {
+          return item !== todo
+        }))
+      }
+
+      const handleRestoreClick = () => {
+        setItems(items => [...items, todos.find(item => !items.includes(item))])
+      }
+
+      return (
+        <>
+          {items.map(todo => (
+            <div key={todo.id}>
+              <span>{todo.value}</span>
+              <button onClick={() => handleDoneClick(todo)}>Done</button>
+            </div>
+          ))}
+          <button onClick={handleRestoreClick}>Restore</button>
+        </>
+      )
+    }
+
+
+    ReactDOM.render(<App />, rootElement)
+
+    // key는 value를 특정하는 이름 (DB, Dictionary, Json, Object...)
+  </script>
+</body>
+
+</html>
