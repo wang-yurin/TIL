@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<title>27강 상태 끌어올리기</title>
+
+<body>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const rootElement = document.getElementById('root')
+
+    const Id = ({ handleIdChange }) => {
+      return (
+        <>
+          <label htmlFor="id">ID: </label>
+          <input id='id' type="text" onChange={handleIdChange} />
+        </>
+      )
+    }
+
+    const Password = ({ handlePasswordChange }) => {
+      return (
+        <>
+          <label htmlFor="pw">PW: </label>
+          <input id='pw' type="password" onChange={handlePasswordChange} />
+        </>
+      )
+    }
+
+    const App = () => {
+      const [id, setId] = React.useState('')
+      const [password, setPassword] = React.useState('')
+
+      const handleIdChange = (event) => {
+        setId(event.target.value)
+        console.log(`ID length: ${event.target.value.length}`)
+      }
+
+      const handlePasswordChange = (event) => {
+        setPassword(event.target.value)
+        console.log(`PW length: ${event.target.value.length}`)
+      }
+
+      const handleLoginClick = () => {
+        alert(`ID: ${id}, PW: ${password}`)
+      }
+
+      return (
+        <>
+          <Id handleIdChange={handleIdChange} />
+          <br />
+          <Password handlePasswordChange={handlePasswordChange} />
+          <br />
+          <button disabled={id.lenght === 0 || password.length === 0} onClick={handleLoginClick}>Login</button>
+        </>
+      )
+    }
+
+    ReactDOM.render(<App />, rootElement)
+
+    // 형제 컴포넌트의 상태가 궁금 => 필요하면 공통된 부모로 상태 끌어올리기
+    // props drilling => 과도한 lifting은 drilling을 야기
+    // 부모가 여럿이 있고 위계가 다른 형제가 서로의 상태를 알아야한다면 단계가 쌓일수록 그 상태가 점점 위의 부모에게 몰입되게 된다. 이렇게 되면 상태를 프롭스로 계속 넘겨주어야하는데(드릴링) 비효율적인 상태관리가 된다.(상태를 몰라도 되는 컴포넌트가 상태를 가지고 있게 되거나 이로인해 상태값에 접근하여 값이 변경될 수도 있다.)
+    // 상태를 한 곳으로 모으고자하는 리액트가 추구하는 Flux(플럭스) 개념(상태관리 데이터의 방향은 단방향으로 흐르도록하고 상태관리는 어디에서 관리하는지에 대해 명확하게 아는 것)
+    // 이를 해결하기위해 contextAPI, 상태관리 라이브러리 등...
+  </script>
+</body>
+
+</html>
