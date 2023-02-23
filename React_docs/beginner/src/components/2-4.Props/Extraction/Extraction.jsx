@@ -66,7 +66,7 @@ function Text(props) {
   return <div className="Comment-text">{props.text}</div>;
 }
 
-function Date(props) {
+function Time(props) {
   return <div className="Comment-date">{formatDate(props.date)}</div>;
 }
 
@@ -75,7 +75,7 @@ function Comment(props) {
     <div className="Comment">
       <UserInfo user={props.author} />
       <Text text={props.text} />
-      <Date date={props.date} />
+      <Time date={props.date} />
     </div>
   );
 }
