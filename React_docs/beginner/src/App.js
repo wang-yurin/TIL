@@ -1,6 +1,8 @@
 import './App.css';
-import Dialog from './components/3-6.Composition2/Dialog';
-import ThankyouDialog from './components/3-6.Composition2/ThankyouDialog';
+import Button from './components/3-7.HOC/Button';
+import Input from './components/3-7.HOC/Input';
+// import Dialog from './components/3-6.Composition2/Dialog';
+// import ThankyouDialog from './components/3-6.Composition2/ThankyouDialog';
 // import WelcomeDialog from './components/3-5.Composition/WelcomeDialog';
 // import State from './components/3-3.Hooks/State';
 // import Reducer from './components/3-3.Hooks/Reducer';
@@ -32,7 +34,9 @@ function App() {
       {/* <Reducer /> */}
       {/* <WelcomeDialog /> */}
       {/* <Dialog /> */}
-      <ThankyouDialog />
+      {/* <ThankyouDialog /> */}
+      <Input />
+      <Button />
     </div>
   );
 }
