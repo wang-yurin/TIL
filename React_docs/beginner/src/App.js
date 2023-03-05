@@ -1,5 +1,6 @@
 import './App.css';
-import Example from './components/3-11.Portal/Example';
+import Component from './components/3-14.PropTypes/Component';
+// import Example from './components/3-11.Portal/Example';
 // import Example from './components/3-10.Context/Example.jsx';
 // import Memo from './components/3-8.Memoization/Memo';
 // import Button from './components/3-7.HOC/Button';
@@ -42,7 +43,8 @@ function App() {
       {/* <Button /> */}
       {/* <Memo /> */}
       {/* <Example /> */}
-      <Example />
+      {/* <Example /> */}
+      <Component />
     </div>
   );
 }
