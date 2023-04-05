@@ -73,7 +73,7 @@ const TermsAndPolicyItem = styled.li`
 
 const Right = styled.div``;
 
-const Footer: React.FC = () => {
+const Footer = () => {
   return (
     <Base>
       <Section>

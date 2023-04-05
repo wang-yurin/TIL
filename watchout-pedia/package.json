@@ -16,8 +16,10 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
+    "react-query": "^3.39.3",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
+    "react-slick": "^0.29.0",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
@@ -46,6 +48,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-router-dom": "^5.3.3"
+    "@types/react-router-dom": "^5.3.3",
+    "@types/react-slick": "^0.23.10"
   }
 }
